@@ -1,0 +1,35 @@
+import hail as hl
+hl.init(driver_cores=8, worker_memory='highmem', tmp_dir="gs://schema_jsealock/tmp/")
+
+
+MT = 'schema2_scz_case_control_unrelated_lcr_geno_dp_filtered_11-20-2025.mt'
+OUT_ALL = 'schema2_scz_cases_controls_all_vars_mac_11-20-2025.ht'
+
+
+mt = hl.read_matrix_table(MT)
+
+vqc = hl.variant_qc(mt).rows()
+print('filter to mac')
+mac = vqc.annotate(MAC = vqc.variant_qc.AC[1])
+mac = mac.select('MAC')
+
+schema1_totals = hl.read_table('schema1_ipsych_uk10k_trios_counts_by_variant.ht')
+
+## combine ipysch and callset macs
+callset_vars = mac.select()
+schema1_vars = schema1_totals.select()
+
+schema1_vars_unique = schema1_vars.filter(hl.is_defined(callset_vars[schema1_vars.key]), keep=False)
+
+ht = callset_vars.union(schema1_vars_unique)
+ht = ht.distinct()
+
+ht = ht.annotate(callset_mac = mac[ht.key].MAC, ipsych_uk10k_mac = schema1_totals[ht.key].MAC)
+ht = ht.annotate(callset_mac = hl.coalesce(ht.callset_mac, 0), ipsych_uk10k_mac = hl.coalesce(ht.ipsych_uk10k_mac, 0))
+ht = ht.annotate(MAC = ht.callset_mac + ht.ipsych_uk10k_mac)
+
+print('repart and write all')
+ht = ht.filter(ht.MAC > 0)
+
+print('write')
+ht.write(OUT_ALL, overwrite=True)
