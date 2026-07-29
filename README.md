@@ -12,8 +12,8 @@ SCHEMA aggregates exome sequencing data across schizophrenia case-control cohort
 4. **GWAS overlap** — integration and comparison of RVAS signal with common-variant GWAS results 
 
 For examples of WES quality control, see: 
-> https://github.com/atgu/bge_analysis/tree/main/exome_qc
-> https://github.com/jsealock1/sequencing_qc
+- https://github.com/atgu/bge_analysis/tree/main/exome_qc
+- https://github.com/jsealock1/sequencing_qc
 
 ## Data Availability
 
