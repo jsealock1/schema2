@@ -7,9 +7,13 @@ Code accompanying the second data freeze of the **SCHEMA (Schizophrenia Exome Me
 SCHEMA aggregates exome sequencing data across schizophrenia case-control cohorts to identify genes and variant classes enriched for rare, damaging variation in cases. This repository covers five stages of the analysis:
 
 1. **RVAS prep and Analysis** — numbered code for annotation, preparation, and CMH analysis of per-gene RVAS
-3. **Enrichment analysis** — enrichment of rare variants by functional annotation and within ASD and DD/ID gene sets
-4. **Figures** — code to reproduce manuscript figures
-5. **GWAS overlap** — integration and comparison of RVAS signal with common-variant GWAS results 
+2. **Enrichment analysis** — enrichment of rare variants by functional annotation and within ASD and DD/ID gene sets
+3. **Figures** — code to reproduce manuscript figures
+4. **GWAS overlap** — integration and comparison of RVAS signal with common-variant GWAS results 
+
+For examples of WES quality control, see: 
+> https://github.com/atgu/bge_analysis/tree/main/exome_qc
+> https://github.com/jsealock1/sequencing_qc
 
 ## Data Availability
 
