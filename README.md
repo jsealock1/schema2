@@ -1,6 +1,6 @@
 # SCHEMA 2.0
 
-Code accompanying the second data freeze of the **SCHEMA (Schizophrenia Exome Meta-Analysis)** project. This repository contains the full analytical pipeline used to process rare variant association study (RVAS) data, run gene- and variant-set-based association analyses, perform enrichment analyses, generate the manuscript figures, and compare SCHEMA results against common-variant (GWAS) findings.
+Code accompanying the second data freeze of the **SCHEMA (Schizophrenia Exome Meta-Analysis)** project. This repository contains the full analytical pipeline used to process rare variant association study (RVAS) data, run association analyses, perform enrichment analyses, generate the manuscript figures, and compare SCHEMA results against common-variant (GWAS) findings.
 
 ## Overview
 
