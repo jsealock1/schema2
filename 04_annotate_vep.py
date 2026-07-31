@@ -1,6 +1,3 @@
-# hailctl dataproc start js --packages gnomad --num-workers 2 --max-idle=45m --autoscaling-policy=max-50 --public-ip-address --vep GRCh38 --master-machine-type n1-highmem-16 --worker-machine-type n1-highmem-16 
-# hailctl dataproc submit js 04_annotate_vep.py
-
 
 # Input
 HT_VEP = 'schema2_scz_case_control_vep_11-05-2025.ht'
