@@ -16,7 +16,6 @@ from importlib.metadata import version
 from gnomad.utils.vep import process_consequences  
 
 import hail as hl
-hl.init(gcs_requester_pays_configuration = 'daly-neale-sczmeta', default_reference = 'GRCh38', tmp_dir='gs://schema_jsealock/tmp/')
 
 
 ht = hl.read_table(HT_VEP)
