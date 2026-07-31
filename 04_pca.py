@@ -1,6 +1,6 @@
 
 import hail as hl
-hl.init(gcs_requester_pays_configuration = 'daly-neale-sczmeta', default_reference = 'GRCh38', tmp_dir='gs://schema_jsealock/tmp/')
+
 
 from gnomad.sample_qc import *
 from gnomad.sample_qc.ancestry import *
