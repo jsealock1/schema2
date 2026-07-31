@@ -1,6 +1,4 @@
 import hail as hl
-hl.init(gcs_requester_pays_configuration = 'daly-neale-sczmeta', default_reference = 'GRCh38', tmp_dir='gs://schema_jsealock/tmp/',driver_memory='highmem')
-hl._set_flags(use_new_shuffle='1')
 
 ## DD/ID
 genes = hl.import_table(GENES, key='gene')
