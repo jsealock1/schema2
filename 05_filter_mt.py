@@ -1,10 +1,6 @@
 import hail as hl
-hl.init(driver_cores=8, worker_memory='highmem', tmp_dir="gs://schema_jsealock/tmp/")
 
 ## filter to unrelated
-MT = 'gs://schema_jsealock/bge_wave3/schema2_add_dragen/schema2_scz_case_control_11-11-2025.mt'
-RELATED_SAMPLES = 'gs://schema_jsealock/schema2/november_2025/schema2/data_king_related_samples_to_remove.tsv'
-KEY = 'gs://schema_jsealock/schema2/november_2025/schema2/king_relatedness_sample_key.tsv'
 
 mt = hl.read_matrix_table(MT)
 related_samples_to_remove = hl.import_table(RELATED_SAMPLES, key='node')
@@ -77,8 +73,6 @@ mt.write(OUT2, overwrite=True)
 MT = 'schema2_scz_case_control_unrelated_lcr_geno_dp_filtered_11-19-2025.mt'
 META = 'schema2_pc_matched.tsv'
 
-import hail as hl
-hl.init(driver_cores=8, worker_memory='highmem', tmp_dir="gs://schema_jsealock/tmp/")
 
 mt = hl.read_matrix_table(MT)
 meta = hl.import_table(META, key='s')
@@ -86,5 +80,4 @@ meta = hl.import_table(META, key='s')
 mt = mt.filter_cols(hl.is_defined(meta[mt.col_key]))
 mt.count_cols()
 
-OUT3 = 'schema2_scz_case_control_unrelated_lcr_geno_dp_filtered_11-20-2025.mt'
 mt.write(OUT3, overwrite=True)
