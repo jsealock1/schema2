@@ -5,10 +5,6 @@ date = Sys.Date()
 
 library(data.table)
 
-ptv = read.delim('2026_01_07_ALL_SCHEMA_PTV_MAC15_GQ25_ptv_AC15_CMH_pc_matched.tsv')[c(1,18,19)]
-ptv_mis = read.delim('2026_01_07_ALL_SCHEMA_PTV_MIS_MAC15_GQ25_ptv-mis_mean_rank93_AC15_CMH_pc_matched.tsv')[c(1,18,19)]
-
-
 ptv = subset(ptv, RES.p_value > 0)
 ptv_mis = subset(ptv_mis, RES.p_value > 0)
 
@@ -25,11 +21,7 @@ table(cc_minp$annotation)
 colnames(cc_minp)[2] = 'cc_p_value'
 colnames(cc_minp)[4] = 'cc_annotation'
 
-write.csv(cc_minp, paste0('case_control_minp_ptv_mismean_rank93_',date,'.csv'), row.names=F, quote=F)
-
-
-# find minp of de novo 
-de_novo_v2_results = 'schema1_de_novo_poisson_results_with_gnomad_v2_rates_with_misrank.tsv.bgz'
+write.csv(cc_minp, MINP_OUT, row.names=F, quote=F)
 
 # find minp of de novo 
 de_novo = read.delim(de_novo_v2_results, header=T)
@@ -66,7 +58,7 @@ run_stouffer = function(dat = dat, de_novo = de_novo, case_control=case_control)
 }
 
 out_ptv_mis_dn = run_stouffer(dat=dat_ptv_mis, case_control=cc_minp, de_novo=de_novo1)
-write.csv(out_ptv_mis_dn, paste0("minp_ptv_mis_misrank93_stouffer_meta_de_novo_v2_rates_mac15_results_cc_weight10_",date,".csv"), row.names=F, quote=F)
+write.csv(out_ptv_mis_dn, paste0(MINP_DN_META_OUT, date,".csv"), row.names=F, quote=F)
 
 
 
@@ -76,11 +68,6 @@ library(ggplot2)
 library(ggsci)
 
 date = Sys.Date()
-
-ptv = read.delim('2026_01_07_ALL_SCHEMA_PTV_MAC15_GQ25_ptv_AC15_CMH_pc_matched.tsv')[c(1,18)]
-ptv_mis = read.delim('2026_01_07_ALL_SCHEMA_PTV_MIS_MAC15_GQ25_ptv-mis_mean_rank93_AC15_CMH_pc_matched.tsv')[c(1,18)]
-minp = read.csv('case_control_minp_ptv_mismean_rank93_2026-01-07.csv')[c(1,2)]
-minp_dn = read.csv('minp_ptv_mis_misrank93_stouffer_meta_de_novo_v2_rates_mac15_results_cc_weight10_2026-01-07.csv')[c(1,11)]
 
 ptv = subset(ptv, RES.p_value > 0)
 ptv_mis = subset(ptv_mis, RES.p_value > 0)
@@ -113,7 +100,6 @@ qq_dat$is_annotate = ifelse(qq_dat$pvalue_out <= bonf, 'yes', 'no')
 
 qq_dat$group = factor(qq_dat$group, levels=c('PTV', 'PTV + Missense', 'Lowest Pvalue', 'De Novo Meta-Analysis'))
 
-pdf('schema2_qqp.pdf', width=18, height=6)
 ggplot(qq_dat, aes(x = e, y = o, color=group)) +
     geom_hline(yintercept=-log10(bonf), linetype="dashed", color = "darkgray") +
     geom_hline(yintercept=-log10(fdr), linetype="dashed", color = "gray") +
@@ -135,7 +121,7 @@ ggplot(qq_dat, aes(x = e, y = o, color=group)) +
         	panel.border = element_rect(colour = "black", fill = NA),
             strip.text = element_text(size=14, face='bold')) +
     guides(color='none')
-dev.off()
+
 
 
 
