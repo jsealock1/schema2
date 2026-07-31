@@ -1,10 +1,4 @@
 import hail as hl
-hl.init(driver_cores=8, worker_memory='highmem', tmp_dir="gs://schema_jsealock/tmp/")
-
-
-MT = 'schema2_scz_case_control_unrelated_lcr_geno_dp_filtered_11-20-2025.mt'
-OUT_ALL = 'schema2_scz_cases_controls_all_vars_mac_11-20-2025.ht'
-
 
 mt = hl.read_matrix_table(MT)
 
