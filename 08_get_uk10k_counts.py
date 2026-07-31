@@ -1,8 +1,5 @@
-HT = 'ipsych_uk10k_trios_all_variants_annotated_mis_mean_rank.ht'
-MAC = 'schema2_scz_cases_controls_all_vars_mac_11-20-2025.ht'
 
 import hail as hl
-hl.init(driver_cores=8, worker_memory='highmem', tmp_dir="gs://schema_jsealock/tmp/")
 
 ht_in = hl.read_table(HT)
 ht_in = ht_in.filter(ht_in.consequence=='none', keep=False)
@@ -10,7 +7,7 @@ ht_in = ht_in.filter(ht_in.consequence=='none', keep=False)
 mac_in = hl.read_table(MAC)
 mac_in = mac_in.filter(mac_in.MAC > 0)
 
-vep = hl.read_table('schema2_scz_case_control_vep_annotated_with_cmh_annos_11-10-2025.ht')
+vep = hl.read_table(VEP)
 
 
 
@@ -63,6 +60,6 @@ def make_rvas_file(ht, mac_in, mac):
 
 
 ht_mac15 = make_rvas_file(ht = ht_in, mac_in = mac_in, mac=15)
-ht_mac15.write('ipsych_uk10k_trios_all_variants_annotated_MAC15_raw_misrank_11-10-2025.ht', overwrite=True)
+ht_mac15.write(OUT, overwrite=True)
 
 
