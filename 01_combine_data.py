@@ -11,9 +11,6 @@ META = 'schema2_pre_relatedness_check_meta_file_11-04-2025.tsv'
 OUT = 'schema2_scz_case_control_11-11-2025.mt'
 
 import hail as hl
-hl.init(driver_cores=8, worker_memory='highmem', tmp_dir="gs://schema_jsealock/tmp/")
-hl._set_flags(use_new_shuffle='1')
-
 
 print('load data')
 dragen = hl.read_matrix_table(DRAGEN)
