@@ -1,5 +1,4 @@
 # just PTV as example
-hailctl dataproc start js --num-workers 2 --max-idle=45m --master-machine-type n1-highmem-16 --worker-machine-type n1-highmem-16 --autoscaling-policy=max-50 --public-ip-address
 
 hailctl dataproc submit js SCHEMA_counts_export.py \
 --mt schema2_scz_case_control_unrelated_lcr_geno_dp_filtered_11-20-2025.mt \
