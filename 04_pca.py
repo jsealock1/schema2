@@ -11,7 +11,6 @@ from gnomad.sample_qc.ancestry import *
 MT = 'schema2_scz_case_control_gnomadv4_snps_11-18-2025_call_rate_repart.mt'
 
 import hail as hl
-hl.init(gcs_requester_pays_configuration = 'daly-neale-sczmeta', default_reference = 'GRCh38', tmp_dir='gs://schema_jsealock/tmp/')
 
 mt = hl.read_matrix_table(MT)
 
