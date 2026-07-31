@@ -1,5 +1,5 @@
 import hail as hl
-hl.init(driver_cores=8, worker_memory='highmem', tmp_dir="gs://schema_jsealock/tmp/")
+
 hl.default_reference('GRCh38')
 from gnomad.utils.vep import vep_or_lookup_vep
 
