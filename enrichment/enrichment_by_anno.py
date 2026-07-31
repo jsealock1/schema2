@@ -1,6 +1,4 @@
 import hail as hl
-hl.init(driver_cores=8, worker_memory='highmem', tmp_dir="gs://schema_jsealock/tmp/")
-hl._set_flags(use_new_shuffle='1')
 
 mt = hl.read_matrix_table(MT_IN)
 
@@ -99,10 +97,6 @@ out4.flatten().export(output=OUT_PLI4)
 
 
 # get total syn
-
-import hail as hl
-hl.init(driver_cores=8, worker_memory='highmem', tmp_dir="gs://schema_jsealock/tmp/")
-hl._set_flags(use_new_shuffle='1')
 
 mt = hl.read_matrix_table(MT_IN)
 total_singleton = hl.sample_qc(mt).cols()
