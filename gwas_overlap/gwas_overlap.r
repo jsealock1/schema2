@@ -15,13 +15,13 @@ colnames(gwas_index2)[1] = 'chromosome'
 gwas_index2$chromosome = as.integer(gwas_index2$chromosome)
 gwas_index2$bp = as.numeric(gwas_index2$bp)
 
-pli = read.delim("gnomad.v4.0.constraint_metrics.tsv", header=T)
+pli = read.delim(GNOMAD_V4_CONSTRAINT, header=T)
 pli = pli[,c('gene','transcript','mane_select')]
 pli = subset(pli, mane_select=='true')
 pli$transcript = gsub("\\..*", "", pli$transcript)
 
 
-loc = read.csv("refseq_grch38_gene_locations", header=T)
+loc = read.csv(REFSEQ_GRCH38, header=T)
 colnames(loc)[1] = 'transcript'
 colnames(loc)[7] = 'gene'
 
