@@ -6,7 +6,7 @@
 
 
 # A Gtex tissue expression
-dat = read.delim("FUMA_gene2func696379/gtex_v8_ts_DEG.txt")
+dat = read.delim(FUMA)
 dat = subset(dat, Category=='DEG.up')
 dat$color = ifelse(dat$adjP < 0.05, 'darkred','cornflowerblue')
 
@@ -33,8 +33,6 @@ library(tidyr)
 library(tibble)
 
 
-dir_path = 'broad_cell_types/files/files'
-files <- list.files(dir_path, pattern = "\\.txt$", full.names = TRUE)
 df <- do.call(rbind, lapply(files, read.table, sep = "\t", header = TRUE))
 
 df$Cell.type <- factor(df$Cell.type, levels = unique(df$Cell.type))
@@ -63,13 +61,10 @@ wss <- sapply(1:10, function(k) {
 })
 
 
-# Optional: Plot elbow
-png('number_of_kmeans_clusters.png', width=8, height=8, unit='in', res=300)
 plot(1:10, wss, type = "b", pch = 19,
      xlab = "Number of Clusters (k)",
      ylab = "Total Within-Cluster Sum of Squares",
      main = "Elbow Method for K-means")
-dev.off()
 
 # Step 5: Final clustering with chosen k
 set.seed(42)
@@ -181,7 +176,7 @@ plot_b = wrap_plots(plots, nrow = 1) + plot_layout(guides = "collect")
 ## C - brainspan heatmap 
 
 #### heatmap 
-dat2 = read.delim('brainspan_data_tpm_with_age_groups.txt', header=T, sep="\t")
+dat2 = read.delim(BRAINSPAN, header=T, sep="\t")
 
 # divide into larger age groups 
 first_trimester = c('8 pcw', '9 pcw', '12 pcw')
@@ -204,7 +199,7 @@ dat2$age_group = ifelse(dat2$age %in% first_trimester, 'first trimester',
 dat2$age_group = factor(dat2$age_group, levels=c('first trimester', 'second trimester','third trimester','infancy','childhood','adolescence','adulthood'))
 
 
-pvalues = read.csv('case_control_minp_ptv_mismean_rank93_2026-01-07.csv')
+pvalues = read.csv(OUT)
 colnames(pvalues)[2] = 'pvalue_out'
 fdr_genes = subset(pvalues, pvalue_out <= fdr)
 
@@ -289,23 +284,6 @@ plot_c = ggplot(heatmap_data, aes(x = age_group, y = gene_symbol, fill = mean_TP
         legend.title = element_text(size=16),
         legend.text = element_text(size=16)) +
   coord_fixed()
-
-
-
-png('figure_3a.png', width=22, height=12, unit='in', res=1000)
-print(plot_a)
-dev.off()
-
-
-png('figure_3b.png', width=22, height=6, unit='in', res=1000)
-print(plot_b)
-dev.off()
-
-
-
-png('figure_3c.png', width=8, height=18, unit='in', res=1000)
-print(plot_c)
-dev.off()
 
 
 png('figure_3c_2.png', width=20, height=8, unit='in', res=1000)
