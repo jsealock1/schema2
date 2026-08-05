@@ -227,7 +227,7 @@ meta_results_mac1_15$MAC = 'MAC <= 15'
 
 
 meta_ancestry = rbind(meta_results_mac1, meta_results_mac2_5, meta_results_mac6_10, meta_results_mac11_15, meta_results_mac1_15)
-write.csv(meta_ancestry, 'enrichment_analysis_meta_across_capture.csv', row.names=F, quote=F)
+write.csv(meta_ancestry, ENRICHMENT_OUT, row.names=F, quote=F)
 
 
 
@@ -294,7 +294,7 @@ meta_results$anno <- ifelse(meta_results$annotation == "plof_os",        "PTV",
                     ifelse(meta_results$annotation == "plof_misrank93", "PTV + Missense Rank 93%",
                                                                 "Synonymous")))
 
-write.csv(meta_results, 'enrichment_analysis_meta_across_ancestry.csv', row.names=F, quote=F)
+write.csv(meta_results, ENRICHMENT_OUT2, row.names=F, quote=F)
 
 
 
@@ -332,13 +332,11 @@ dev.off()
 
 ## supplement: 
 
-setwd('/Users/juliasealock/Desktop/schema/add_dragen_data_nov25/enrichment')
 library(tidyverse)
 library(ggplot2)
 library(ggpubr)
 
 # A. by MAC
-meta_results = read.csv('enrichment_analysis_meta_across_ancestry.csv')
 
 cols1 = c('PTV' = '#d90429', 'PTV + Missense Rank 93%' = "#fc9f5b", 'Missense Rank 93%' = "#129490", 'Synonymous' = '#9fb1bc') 
 meta_results$anno = factor(meta_results$anno, levels=c('PTV','PTV + Missense Rank 93%', 'Missense Rank 93%','Synonymous'))
@@ -371,7 +369,6 @@ a = ggplot(data=meta_results, aes(x=x, y=OR, ymin=Lower.CI, ymax=Upper.CI, fill=
 
 
 # B. by ancestry 
-meta_ancestry = read.csv('enrichment_analysis_meta_across_capture.csv')
 cols <- c("Meta-analysis" = "black", "NFE" = "#1F77B4FF", "FIN" = "#FF7F0EFF", "EAS" = "#2CA02CFF", 'AFR' = '#D62728FF', 'AMR' = '#9467BDFF', 'CSA' = '#8C564BFF', 'ASJ' = '#E377C2FF', 'MID' = '#BCBD22FF')
 
 mac1_pop_meta = subset(meta_ancestry, MAC == 'MAC = 1')
@@ -401,7 +398,6 @@ b = ggplot(data=mac1_pop_meta, aes(x=x, y=OR, ymin=Lower.CI, ymax=Upper.CI, fill
 
 
 # C. by capture 
-all_results = read.csv('enrichment_results_by_mac_x_anno_x_capture_ancestry.csv')
 mac1_ptv = subset(all_results, MAC == 'MAC1' & annotation =='plof_os')
 cols <- c("NFE" = "#1F77B4FF", "FIN" = "#FF7F0EFF", "EAS" = "#2CA02CFF", 'AFR' = '#D62728FF', 'AMR' = '#9467BDFF', 'CSA' = '#8C564BFF', 'ASJ' = '#E377C2FF', 'MID' = '#BCBD22FF')
 
@@ -431,12 +427,3 @@ c = ggplot(data=mac1_ptv, aes(x=x, y=OR, ymin=Lower.CI, ymax=Upper.CI, fill=pop,
         	strip.background=element_rect(fill="white"),
         	panel.border = element_rect(colour = "black", fill = NA)) 
 
-
-
-png('enrichment_supplemental_figure.png', height=15, width=8, unit='in', res=400)
-ggarrange(a, b, c, ncol=1, common.legend=T, labels=c('A.', 'B.','C.'))
-dev.off()
-
-png('enrichment_supplemental_figure_a_b.png', height=10, width=10, unit='in', res=400)
-ggarrange(a, b, ncol=1, common.legend=F, labels=c('A.', 'B.'))
-dev.off()
