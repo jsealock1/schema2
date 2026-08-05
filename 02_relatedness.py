@@ -1,11 +1,5 @@
 import hail as hl
 
-MT = 'schema2_scz_case_control_11-04-2025.mt'
-PCA_SNPS = "gs://gcp-public-data--gnomad/release/4.0/pca/gnomad.v4.0.pca_loadings.ht"
-
-REL_OUT = 'schema2_scz_case_control_min.1_out_11-04-2025.tsv'
-
-
 ## relatedness
 mt = hl.read_matrix_table(MT)
 
