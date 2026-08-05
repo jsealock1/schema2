@@ -7,9 +7,7 @@ import math
 # ---------------------
 
 hl.init(
-    gcs_requester_pays_configuration='daly-neale-sczmeta',
-    default_reference='GRCh38',
-    tmp_dir='gs://schema_jsealock/tmp/'
+    default_reference='GRCh38'
 )
 
 def compute_CMH_OR_with_CI(case_carriers, case_non_carriers,
