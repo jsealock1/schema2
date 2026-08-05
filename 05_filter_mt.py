@@ -65,19 +65,5 @@ mt = mt.filter_entries(
     keep=False
 )
 
-OUT2 = 'schema2_scz_case_control_unrelated_lcr_geno_dp_filtered_11-19-2025.mt'
+
 mt.write(OUT2, overwrite=True)
-
-
-## pc matched, no unknown cohort
-MT = 'schema2_scz_case_control_unrelated_lcr_geno_dp_filtered_11-19-2025.mt'
-META = 'schema2_pc_matched.tsv'
-
-
-mt = hl.read_matrix_table(MT)
-meta = hl.import_table(META, key='s')
-
-mt = mt.filter_cols(hl.is_defined(meta[mt.col_key]))
-mt.count_cols()
-
-mt.write(OUT3, overwrite=True)
