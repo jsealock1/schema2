@@ -1,15 +1,3 @@
-WGSPD = 'wgspd_passing_samples.mt' 
-GNOMAD = 'gnomad_exomes_passing.mt' 
-BGE = 'bge_gatk_passing_samples.mt' 
-DRAGEN = 'BGE_WAVE3_DP12_GQ25_AB.25_padded_intervals.mt'
-CARDIFF = 'cardiff_ucla_subset_passing_samples.mt' 
-
-RELATED_SAMPLES = 'data_king_related_samples_to_remove.tsv'
-KEY = 'king_relatedness_sample_key.tsv'
-META = 'schema2_pre_relatedness_check_meta_file_11-04-2025.tsv'
-
-OUT = 'schema2_scz_case_control_11-11-2025.mt'
-
 import hail as hl
 
 print('load data')
