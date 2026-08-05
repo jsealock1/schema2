@@ -55,7 +55,7 @@ man_plot_dat = function(out=out){
   return(don)
 }
 
-out = read.csv('case_control_minp_ptv_mismean_rank93_2026-01-07.csv')
+out = read.csv(OUT)
 colnames(out)[2] = 'pvalue_out'
 don = man_plot_dat(out = out)
 
@@ -125,13 +125,11 @@ geom_text_repel(data = fdr_dat, aes(label = gene), nudge_x = fdr_dat$nudge_x, nu
       xlab("") + 
       ylab("-log10(P)") 
 
-png('figure_1a_2.png', width=20, height=10, unit='in', res=1000)
-print(plot_a)
-dev.off()
+
 
 
 ## B - qqplot
-out = read.csv('case_control_minp_ptv_mismean_rank93_2026-01-07.csv')
+out = read.csv(OUT)
 get_qqp_data = function(input=input, group=group){
     colnames(input)[2] = 'pvalue_out'
     input = input[!duplicated(input$gene_symbol),]
@@ -174,13 +172,9 @@ plot_b = ggplot(qqp, aes(x = e, y = o, color=colors)) +
 
 
 ### OR x freq plot
-ptv = read.delim('2026_01_07_ALL_SCHEMA_PTV_MAC15_GQ25_ptv_AC15_CMH_pc_matched.tsv')[c(1,18,19)]
-out1 = subset(out, cc_p_value <= fdr)
-ptv = ptv[(ptv$gene_symbol %in% out1$gene_symbol),]
-write.csv(ptv, 'schema2_fdr_genes_OR_gnomad_freq.csv', row.names=F, quote=F)
 
 ## plot
-dat = read.csv('schema2_fdr_genes_OR_gnomad_freq.csv')
+dat = read.csv(INPUT)
 
 dat$gnomad_freq = dat$gnomad_obs/(807162*2)
 
@@ -189,7 +183,7 @@ dat$OR_plot <- ifelse(is.infinite(dat$OR), 100, dat$OR)
 dat$gnomad_freq = as.numeric(dat$gnomad_freq)
 
 ## add gwas loci
-gwas = read.delim('PGC3_SCZ_wave3.primary.autosome.public.v3.vcf.tsv')
+gwas = read.delim(GWAS)
 gwas = subset(gwas, PVAL < 5e-8)
 gwas$OR = exp(gwas$BETA)
 gwas$Cite = 'Trubetskoy et al'
@@ -265,7 +259,7 @@ plot_c = ggplot(dat, aes(x = gnomad_freq, y = OR_plot, color = Class, label = ge
 
 
 # figure D - forest plot
-results = read.delim('schema2_case_control_results_05-19-2026.tsv')
+results = read.delim(SCHEMA1)
 results$minp_group <- ifelse(
   results$PTV.Pvalue == results$PTV...Missense.Pvalue, 'Both',
   ifelse(results$PTV.Pvalue < results$PTV...Missense.Pvalue, 'PTV', 'PTV + Missense Rank 93%')
@@ -276,13 +270,13 @@ results = results[(results$Gene %in% s2_genes$gene),]
 ptv_label_genes = subset(results, minp_group == 'PTV' | minp_group == 'Both')$Gene
 ptv_mis_label_genes = subset(results, minp_group == 'PTV + Missense Rank 93%' | minp_group == 'Both')$Gene
 
-s2_ptv = read.delim('2026_06_12_ALL_SCHEMA_PTV_MAC15_GQ25_ptv_AC15_CMH_pc_matched.tsv')
+s2_ptv = read.delim(SCHEMA2_PTV)
 s2_ptv = s2_ptv[,c('gene_symbol','OR','CI_lower','CI_upper')]
 colnames(s2_ptv) = c('gene', 'OR_PTV','PTV_lower','PTV_upper')
 s2_ptv$group = 'PTV'
 s2_ptv$label = ifelse(s2_ptv$gene %in% ptv_label_genes, '*', ' ')
 
-s2_ptv_mis = read.delim('2026_06_12_ALL_SCHEMA_PTV_MIS_MAC15_GQ25_ptv-mis_mean_rank93_AC15_CMH_pc_matched.tsv')
+s2_ptv_mis = read.delim(SCHEMA2_MIS)
 s2_ptv_mis = s2_ptv_mis[,c('gene_symbol','OR','CI_lower','CI_upper')]
 colnames(s2_ptv_mis) = c('gene', 'OR_PTV','PTV_lower','PTV_upper')
 s2_ptv_mis$group = 'PTV + Missense Rank 93%'
@@ -368,22 +362,4 @@ theme(
 
 
 
-
-
-png('figure_1a_2.png', width=20, height=10, unit='in', res=1000)
-print(plot_a)
-dev.off()
-
-png('figure_1b.png', width=10, height=10, unit='in', res=1000)
-print(plot_b)
-dev.off()
-
-png('figure_1c.png', width=20, height=10, unit='in', res=1000)
-print(plot_c)
-dev.off()
-
-
-png('figure_1d_ptv_mis_forest.png', width=10, height=10, unit='in', res=1000)
-print(plot_d)
-dev.off()
 
