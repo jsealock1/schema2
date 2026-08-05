@@ -2,11 +2,11 @@ bonf = 1.31e-6
 fdr = 6.84e-05
 
 
-all_meta = read.csv('case_control_minp_ptv_mismean_rank93_2026-01-07.csv')
+all_meta = read.csv(META)
 
 fdr_genes = subset(all_meta, cc_p_value <= fdr)
 
-gwas_index = read.delim('supp_table3_ld_indep_loci_grch38.tsv')
+gwas_index = read.delim(GWAS)
 gwas_index2 = gwas_index[,c('locus','alleles','top.index')]
 
 gwas_index2$locus = gsub('chr', '', gwas_index2$locus)
@@ -15,14 +15,13 @@ colnames(gwas_index2)[1] = 'chromosome'
 gwas_index2$chromosome = as.integer(gwas_index2$chromosome)
 gwas_index2$bp = as.numeric(gwas_index2$bp)
 
-# pli = read.delim("~/Downloads/gnomad.v2.1.1.lof_metrics.by_gene.txt.bgz")
-pli = read.delim("~/Downloads/gnomad.v4.0.constraint_metrics.tsv", header=T)
+pli = read.delim("gnomad.v4.0.constraint_metrics.tsv", header=T)
 pli = pli[,c('gene','transcript','mane_select')]
 pli = subset(pli, mane_select=='true')
 pli$transcript = gsub("\\..*", "", pli$transcript)
 
 
-loc = read.csv("~/Downloads/refseq_grch38_gene_locations (3)", header=T)
+loc = read.csv("refseq_grch38_gene_locations", header=T)
 colnames(loc)[1] = 'transcript'
 colnames(loc)[7] = 'gene'
 
@@ -47,8 +46,6 @@ result_fdr = result[(result$gene %in% fdr_genes$gene_symbol),]
 
 gwas = read.delim('supp_table3_ld_indep_loci.txt', header=T) # index snps from extended gwas 
 gwas = gwas[,c('top.index','top.P','top.alleles','top.OR','top.SE')]
-
-write.csv(result_fdr, 'scz_gwas_hits_near_schema_genes_0.5mb.csv')
 
 
 ## permute 
@@ -89,15 +86,9 @@ observed_count = 6
 
 p_value <- (sum(overlap_counts >= observed_count) + 1) / (length(overlap_counts) + 1)
 
- # Plot histogram 
-hist(overlap_counts, main = "Expected Overlaps from Random Gene Sets",
-     xlab = "Number of Overlapping Genes", breaks = 50)
-abline(v = observed_count, col = "red", lwd = 2)
 
-
-png('expected_random_overlap_0.5mb_10k_sims.png', width=8, height=8, unit='in', res=500)
 hist(overlap_counts, main = "Expected Overlaps from 10k Overlap Simulations",
      xlab = "Number of Overlapping Genes", breaks = 50)
 abline(v = observed_count, col = "red", lwd = 2)
-dev.off()
+
 
