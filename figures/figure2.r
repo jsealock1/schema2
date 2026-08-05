@@ -1,8 +1,6 @@
-setwd('/Users/juliasealock/Desktop/schema/add_dragen_data_nov25/manuscript/figures/figure2')
-
 ## A. enrichment in asd, dd, bip
 
-plot_dat = read.csv('enrichment_by_pheno_group_and_anno_meta_updated.csv')
+plot_dat = read.csv(DDID_ENRICHMENT)
 plot_dat = subset(plot_dat, pop == 'Meta-analysis')
 plot_dat$Phenotype = ifelse(plot_dat$Phenotype == 'DD/ID', 'DD/ID\n(261 genes)', 'ASD\n(257 genes)')
 plot_dat$Phenotype = factor(plot_dat$Phenotype, levels=c('DD/ID', 'DD/ID\n(261 genes)','ASD', 'ASD\n(257 genes)'))#,'BIP\n(27 genes)'))
@@ -43,11 +41,11 @@ plot_a = ggplot(data=plot_dat, aes(x=x, y=OR, ymin=Lower.CI, ymax=Upper.CI, fill
 
 ## B - upset plot
 
-df = read.csv('upset_plot_data.csv')
+df = read.csv(UPSET_PLOT_DAT)
 df = filtered_data2
 
 
-sczp = read.csv('case_control_minp_ptv_mismean_rank93_2026-01-07.csv')[c(1,2)]
+sczp = read.csv(OUT)[c(1,2)]
 sczp = subset(sczp, cc_p_value <= fdr)
 colnames(sczp)[2] = 'pvalue_out'
 sczp = sczp[,c('gene_symbol','pvalue_out')]
@@ -178,17 +176,6 @@ plot_c = ggplot(df_long, aes(y = condition, x = gene_symbol2, fill = OR_plot)) +
     )
   )
 
-
-png("figure_2a.png", width = 10, height = 4, units = 'in', res = 1000)
-print(plot_a)
-dev.off()
-
-png("figure_2b.png", width = 10, height = 4, units = 'in', res = 1000)
-print(plot_b)
-dev.off()
-
-png("figure_2c.png", width = 10, height = 4, units = 'in', res = 1000)
-print(plot_c)
 dev.off()
 
 
