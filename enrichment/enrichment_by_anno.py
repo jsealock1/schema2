@@ -103,4 +103,4 @@ total_singleton = hl.sample_qc(mt).cols()
 total_singleton = total_singleton.select(total_singleton.sample_qc.n_singleton)
 total_singleton = total_singleton.rename({'n_singleton' : 'n_total_singleton'})
 
-total_singleton.export('counts_of_total_singletons_11_20_2025.tsv.bgz')
+total_singleton.export(SINGLETON_OUT)
