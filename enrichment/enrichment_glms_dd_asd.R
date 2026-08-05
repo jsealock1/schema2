@@ -79,7 +79,7 @@ results_asd$phenotype = 'ASD'
 results_dd$phenotype = 'DD/ID'
 
 all_results = rbind(results_asd, results_dd)
-write.csv(all_results, 'ddid_asd_enrichment_results_by_mac_x_anno_x_capture_ancestry.csv', row.names=F, quote=F, col.names=F)
+write.csv(all_results, DDID_OUT, row.names=F, quote=F, col.names=F)
 
 
 library(meta)
@@ -166,7 +166,7 @@ meta_results_dd$phenotype= 'DD/ID'
 
 
 meta_ancestry = rbind(meta_results_asd, meta_results_dd)
-write.csv(meta_ancestry, 'enrichment_analysis_meta_across_capture.csv', row.names=F, quote=F)
+write.csv(meta_ancestry, META_OUT, row.names=F, quote=F)
 
 
 
@@ -227,7 +227,7 @@ meta_results$anno <- ifelse(meta_results$annotation == "plof_os",        "PTV",
                     ifelse(meta_results$annotation == "plof_misrank93", "PTV + Missense Rank 93%",
                                                                 "Synonymous")))
 
-write.csv(meta_results, 'enrichment_analysis_meta_across_ancestry.csv', row.names=F, quote=F)
+write.csv(meta_results, META_OUT2, row.names=F, quote=F)
 
 
 
