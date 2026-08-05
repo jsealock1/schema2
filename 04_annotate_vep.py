@@ -1,17 +1,3 @@
-
-# Input
-HT_VEP = 'schema2_scz_case_control_vep_11-05-2025.ht'
-
-
-HT_MPC = 'fordist_constraint_official_mpc_values_v2_grch38.ht' 
-AM = 'AlphaMissense_deduplicated_hg38_2023-10-02.ht' 
-HT_OS = '20240618_GRCh38_OS.ht' # other splice
-TARGET_INTERVALS = "bge_exome_calling_regions.v1.interval_list.txt" 
-
-# output
-HT_ANNOT = 'schema2_scz_case_control_vep_annotated_11-05-2025.ht'
-
-
 from importlib.metadata import version
 from gnomad.utils.vep import process_consequences  
 
