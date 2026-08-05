@@ -7,7 +7,7 @@ print('filter to mac')
 mac = vqc.annotate(MAC = vqc.variant_qc.AC[1])
 mac = mac.select('MAC')
 
-schema1_totals = hl.read_table('schema1_ipsych_uk10k_trios_counts_by_variant.ht')
+schema1_totals = hl.read_table(SCHEMA1)
 
 ## combine ipysch and callset macs
 callset_vars = mac.select()
